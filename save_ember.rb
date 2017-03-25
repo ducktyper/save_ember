@@ -32,8 +32,7 @@ def require_model js
 end
 
 def extract_serializer js, basename
-  if js =~ /\Hermes\.\w+ = DS.ActiveModelSerializer.extend#{BRACKET};/
-    js.sub!(/\s*(Hermes\.\w+ = DS.ActiveModelSerializer.extend#{BRACKET};)\s*/, '')
+  if js.sub!(/\s*(Hermes\.\w+ = DS.ActiveModelSerializer.extend#{BRACKET};)\s*/, '')
     serializer = $1
     serializer.sub!(/\s*Hermes\.\w+ = DS/, 'export default DS')
     serializer = require_model serializer
@@ -44,14 +43,12 @@ def extract_serializer js, basename
 end
 
 def extract_adapter js, basename
-  if js =~ /\Hermes\.\w+ = Hermes\.InternalAdapter.extend\(\);/
-    js.sub!(/\s*Hermes\.\w+ = Hermes\.InternalAdapter.extend\(\)\s*/, '')
+  if js.sub!(/\s*Hermes\.\w+ = Hermes\.InternalAdapter.extend\(\)\s*/, '')
     adapter = "export default DS.RESTAdapter.extend({\n  namespace: 'internal/v1'\n});"
     adapter = require_model adapter
 
     save adapter, "#{DEST}adapters/#{basename}.js"
-  elsif js =~ /Hermes\.\w+ = Hermes\.RESTAdapter.extend#{BRACKET};/
-    js.sub!(/\s*(Hermes\.\w+ = Hermes\.RESTAdapter.extend#{BRACKET};)\s*/, '')
+  elsif js.sub!(/\s*(Hermes\.\w+ = Hermes\.RESTAdapter.extend#{BRACKET};)\s*/, '')
     adapter = $1
     adapter.sub!(/\s*Hermes\.\w+ = Hermes/, 'export default DS')
     adapter = require_model adapter
