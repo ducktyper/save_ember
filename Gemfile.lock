@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.12.2)
+    execjs (2.7.0)
+    minitest (5.10.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  coffee-script (= 2.4.1)
+  minitest (= 5.10.1)
+
+BUNDLED WITH
+   1.13.6
