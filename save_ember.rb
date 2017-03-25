@@ -16,10 +16,8 @@ end
 def extended_model js, basename
   class_name = class_name_from basename
 
-  if js =~ /Hermes\.#{class_name} = Hermes\.(\w+)\.extend\(/
-    parent = $1
-    js.sub!(/Hermes\.#{class_name} = Hermes\.(\w+)\.extend\(/, "export default #{parent}.extend(")
-    js.prepend "import #{class_name} from './#{file_name_from class_name}';\n"
+  if js.sub!(/Hermes\.#{class_name} = Hermes\.(\w+)\.extend\(/, 'export default \1.extend(')
+    js.prepend "import #{$1} from './#{file_name_from $1}';\n"
   end
   js
 end
