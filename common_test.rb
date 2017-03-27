@@ -39,4 +39,12 @@ describe "common" do
     assert_equal("import DS from 'ember-data';\n", import_class('Hermes', 'DS.Model'))
     assert_equal("import RESTAdapter from './rest-adapter';\n", import_class('Hermes', 'Hermes.RESTAdapter'))
   end
+
+  it "export_class" do
+    out = export_class 'Hermes', 'Hermes.Test = DS.Model.extend()'
+    assert_equal("import DS from 'ember-data';\nexport default DS.Model.extend()", out)
+
+    out = export_class 'Hermes', 'Hermes.Test = Hermes.Parent.extend()'
+    assert_equal("import Parent from './parent';\nexport default Parent.extend()", out)
+  end
 end

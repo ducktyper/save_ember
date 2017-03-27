@@ -28,6 +28,18 @@ module Common
       "import #{$1} from './#{file_name_from $1}';\n"
     else
       puts "Don't know how to import #{class_name}"
+      nil
+    end
+  end
+
+  def export_class app_name, code
+    if (match = code.match(/\s*#{app_name}\.\w+ = (?<class_name>.*)\.extend/))
+      code.sub!(/\s*#{app_name}\.\w+ = (#{app_name}\.)?/, 'export default ')
+      code.prepend(import_class app_name, match[:class_name])
+      code
+    else
+      puts "Don't know how to export #{code.scan(/.*/)[0]}"
+      code
     end
   end
 end
