@@ -14,6 +14,14 @@ def create_paths
   end
 end
 
+def coffeefix basename, code
+  # Fix reopen the same class issue
+  class_name = class_name_from basename
+  code.gsub! /\b#{APP}\.#{class_name}\.reopenClass.*/, ''
+
+  code
+end
+
 def extract_serializer js, basename
   pattern = /\s*(?<serializer>Hermes\.\w+ = DS.ActiveModelSerializer.extend#{BRACKET};)\s*/
   if (match = js.match pattern)
@@ -52,7 +60,7 @@ create_paths
   Dir[ROOT + path].each do |file|
     basename = File.basename(file, ".js.coffee").downcase.gsub('_', '-')
 
-    js = CoffeeScript.compile File.read(file)
+    js = CoffeeScript.compile coffeefix(basename, File.read(file).dup)
     js = remove_outer_closer js
     js = export_class APP, js
     js = extract_serializer js, basename
