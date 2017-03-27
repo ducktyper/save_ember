@@ -21,6 +21,7 @@ def extract_serializer js, basename
 
     serializer = match[:serializer]
     serializer = export_class APP, serializer
+    serializer = import_classes APP, serializer
 
     save serializer, "#{DEST}serializers/#{basename}.js"
   end
@@ -34,6 +35,7 @@ def extract_adapter js, basename
 
     adapter = match[:adapter]
     adapter = export_class APP, adapter
+    adapter = import_classes APP, adapter
 
     save adapter, "#{DEST}adapters/#{basename}.js"
   end
@@ -55,6 +57,7 @@ create_paths
     js = export_class APP, js
     js = extract_serializer js, basename
     js = extract_adapter js, basename
+    js = import_classes APP, js
 
     save js, "#{DEST}models/#{basename}.js"
   end
