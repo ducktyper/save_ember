@@ -24,6 +24,8 @@ module Common
   def import_class app_name, class_name
     if class_name =~ /^DS\./
       "import DS from 'ember-data';\n"
+    elsif class_name =~ /^Ember\.(\w+)$/
+      "import Ember from 'ember';\n"
     elsif class_name =~ /^#{app_name}\.(\w+)$/
       "import #{$1} from './#{file_name_from $1}';\n"
     else
