@@ -38,6 +38,7 @@ describe "common" do
   it "import_classes" do
     assert_equal("import DS from 'ember-data';\n\nDS.Model", import_classes('Hermes', 'DS.Model'))
     assert_equal("import Ember from 'ember';\n\nEmber.Object", import_classes('Hermes', 'Ember.Object'))
+    assert_equal("import Ember from 'ember';\n\nEmber.Object", import_classes('Hermes', 'Em.Object'))
     assert_equal("import RESTAdapter from './rest-adapter';\n\nRESTAdapter", import_classes('Hermes', 'Hermes.RESTAdapter'))
   end
 

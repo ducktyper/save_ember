@@ -26,7 +26,7 @@ module Common
       case class_name
       when /^DS\./
         "import DS from 'ember-data';"
-      when /^Ember\./
+      when /^Ember\./, /^Em\./
         "import Ember from 'ember';"
       when /^#{app_name}\.(\w+)/
         "import #{$1} from './#{file_name_from $1}';"
@@ -38,6 +38,7 @@ module Common
     if import_code
       code.prepend(import_code + "\n\n")
       code.gsub!(/\b#{app_name}\./, '')
+      code.gsub!(/\bEm\./, 'Ember.')
     end
     code
   end
