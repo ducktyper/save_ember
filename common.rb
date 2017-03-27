@@ -35,7 +35,7 @@ module Common
       end
     end.join("\n")
 
-    if import_code
+    if import_code != ''
       code.prepend(import_code + "\n\n")
       code.gsub!(/\b#{app_name}\./, '')
       code.gsub!(/\bEm\./, 'Ember.')
