@@ -21,7 +21,7 @@ module Common
     js
   end
 
-  def require_class app_name, class_name
+  def import_class app_name, class_name
     if class_name =~ /^DS\./
       "import DS from 'ember-data';\n"
     elsif class_name =~ /^#{app_name}\.(\w+)$/

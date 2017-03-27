@@ -35,8 +35,8 @@ describe "common" do
     assert_equal(remove_outer_closer(from), "code")
   end
 
-  it "require_class" do
-    assert_equal("import DS from 'ember-data';\n", require_class('Hermes', 'DS.Model'))
-    assert_equal("import RESTAdapter from './rest-adapter';\n", require_class('Hermes', 'Hermes.RESTAdapter'))
+  it "import_class" do
+    assert_equal("import DS from 'ember-data';\n", import_class('Hermes', 'DS.Model'))
+    assert_equal("import RESTAdapter from './rest-adapter';\n", import_class('Hermes', 'Hermes.RESTAdapter'))
   end
 end
