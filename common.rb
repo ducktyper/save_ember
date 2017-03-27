@@ -21,23 +21,30 @@ module Common
     js
   end
 
-  def import_class app_name, class_name
-    if class_name =~ /^DS\./
-      "import DS from 'ember-data';\n"
-    elsif class_name =~ /^Ember\.(\w+)$/
-      "import Ember from 'ember';\n"
-    elsif class_name =~ /^#{app_name}\.(\w+)$/
-      "import #{$1} from './#{file_name_from $1}';\n"
-    else
-      puts "Don't know how to import #{class_name}"
-      nil
+  def import_classes app_name, code
+    import_code = code.scan(/\b(([A-Z]\w+)\.([A-Z]\w+))/).map(&:first).uniq.map do |class_name|
+      case class_name
+      when /^DS\./
+        "import DS from 'ember-data';"
+      when /^Ember\./
+        "import Ember from 'ember';"
+      when /^#{app_name}\.(\w+)/
+        "import #{$1} from './#{file_name_from $1}';"
+      else
+        raise "Don't know how to import #{class_name}"
+      end
+    end.join("\n")
+
+    if import_code
+      code.prepend(import_code + "\n\n")
+      code.gsub!(/\b#{app_name}\./, '')
     end
+    code
   end
 
   def export_class app_name, code
-    if (match = code.match(/\s*#{app_name}\.\w+ = (?<class_name>.*)\.extend/))
+    if (match = code.match(/\s*#{app_name}\.\w+ = .*\.extend/))
       code.sub!(/\s*#{app_name}\.\w+ = (#{app_name}\.)?/, 'export default ')
-      code.prepend(import_class app_name, match[:class_name])
       code
     else
       puts "Don't know how to export #{code.scan(/.*/)[0]}"

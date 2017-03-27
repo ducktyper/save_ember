@@ -35,17 +35,17 @@ describe "common" do
     assert_equal(remove_outer_closer(from), "code")
   end
 
-  it "import_class" do
-    assert_equal("import DS from 'ember-data';\n", import_class('Hermes', 'DS.Model'))
-    assert_equal("import Ember from 'ember';\n", import_class('Hermes', 'Ember.Object'))
-    assert_equal("import RESTAdapter from './rest-adapter';\n", import_class('Hermes', 'Hermes.RESTAdapter'))
+  it "import_classes" do
+    assert_equal("import DS from 'ember-data';\n\nDS.Model", import_classes('Hermes', 'DS.Model'))
+    assert_equal("import Ember from 'ember';\n\nEmber.Object", import_classes('Hermes', 'Ember.Object'))
+    assert_equal("import RESTAdapter from './rest-adapter';\n\nRESTAdapter", import_classes('Hermes', 'Hermes.RESTAdapter'))
   end
 
   it "export_class" do
     out = export_class 'Hermes', 'Hermes.Test = DS.Model.extend()'
-    assert_equal("import DS from 'ember-data';\nexport default DS.Model.extend()", out)
+    assert_equal("export default DS.Model.extend()", out)
 
     out = export_class 'Hermes', 'Hermes.Test = Hermes.Parent.extend()'
-    assert_equal("import Parent from './parent';\nexport default Parent.extend()", out)
+    assert_equal("export default Parent.extend()", out)
   end
 end
